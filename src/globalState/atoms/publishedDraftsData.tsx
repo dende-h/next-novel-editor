@@ -1,12 +1,12 @@
 import localforage from "localforage";
 import { atom } from "recoil";
-import { recoilPersist } from "../../components/util/customRecoilPersist"; 
+import { recoilPersist } from "../../components/util/customRecoilPersist";
 
 export type draftData = { id: string; goodMark: number };
 
 localforage.config({
 	driver: localforage.INDEXEDDB,
-	name: "publishedDraftsData",
+	name: "drafts",
 	version: 2,
 	storeName: "publishedDraftsData"
 });

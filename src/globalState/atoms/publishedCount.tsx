@@ -4,7 +4,7 @@ import { recoilPersist } from "../../components/util/customRecoilPersist";
 
 localforage.config({
 	driver: localforage.INDEXEDDB,
-	name: "publishedCount",
+	name: "drafts",
 	version: 2,
 	storeName: "publishedDraftsCount"
 });

@@ -2,10 +2,9 @@ import localforage from "localforage";
 import { atom } from "recoil";
 import { recoilPersist } from "../../components/util/customRecoilPersist";
 
-
 localforage.config({
 	driver: localforage.INDEXEDDB,
-	name: "isEdited",
+	name: "drafts",
 	version: 2,
 	storeName: "isEditedFlag"
 });

@@ -18,7 +18,7 @@ import {
 	Text,
 	useColorModeValue
 } from "@chakra-ui/react";
-import { memo, useEffect, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import { ImCancelCircle, ImPlus, ImPriceTags } from "react-icons/im";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { draftObjectArray, drafts } from "../../globalState/atoms/drafts";
@@ -30,7 +30,7 @@ import { useToastTemplate } from "../../hooks/useToastTemplate";
 import { PrimaryIconButton } from "../templates/PrimaryIconButton";
 
 //タグを追加するためのフォームモーダル
-export const AddTagsFormModal = memo(() => {
+export const AddTagsFormModal = () => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const displayDraft = useRecoilValue(editorState);
 	const { setConposing, onEnterKeySubmitEvent } = useEnterKeyEvent();
@@ -44,6 +44,11 @@ export const AddTagsFormModal = memo(() => {
 	const buttonHoverBgColor = useColorModeValue("gray.300", "gray.500");
 	const { calcCharCount, charCount } = useCalcCharCount();
 	const maxLength = 12;
+	const focus = useRef(null);
+
+	const focusEvent = () => {
+		focus?.current?.focus();
+	};
 
 	useEffect(() => {
 		setIsChanged(false);
@@ -122,6 +127,7 @@ export const AddTagsFormModal = memo(() => {
 						<Center padding={2} marginBottom={2}>
 							<HStack position={"relative"} zIndex={1}>
 								<Input
+									ref={focus}
 									value={value}
 									placeholder={"追加するタグを入力して下さい"}
 									onChange={onChangeInputForm}
@@ -136,6 +142,8 @@ export const AddTagsFormModal = memo(() => {
 									}}
 									onKeyUp={(e) => {
 										onEnterKeySubmitEvent(e, onEnterKeyUp);
+										focusEvent();
+										e.stopPropagation();
 									}}
 									_focus={{ backgroundColor: inputFocusBgColor, boxShadow: "outline" }}
 								/>
@@ -199,5 +207,5 @@ export const AddTagsFormModal = memo(() => {
 			</Modal>
 		</>
 	);
-});
+};
 AddTagsFormModal.displayName = "AddTagsFormModal";
