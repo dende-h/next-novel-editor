@@ -1,6 +1,6 @@
 /* eslint-disable no-useless-escape */
 import { Box } from "@chakra-ui/react";
-import { FC, memo } from "react";
+import { FC } from "react";
 
 type Props = {
 	text: string;
@@ -12,11 +12,6 @@ function addRubyTags(text: string) {
 	return text.replace(rubyRegex, "<ruby>$1<rt>$2</rt></ruby>");
 }
 
-function addBrTags(text: string) {
-	return text.replace(/\r?\n/g, "<br>");
-}
-
-//リンクの生成とHTMLエスケープ
 function addLinkTags(text: string) {
 	const linkRegex = /\[([^\]]+)\]\((http[^\)]+)\)/g;
 	const escapedText = text
@@ -27,8 +22,13 @@ function addLinkTags(text: string) {
 		.replace(/'/g, "&#x27;")
 		.replace(/\//g, "&#x2F;");
 	return escapedText.replace(linkRegex, function (match, p1, p2) {
-		return `<a href="${p2}" style="text-decoration: underline; color: blue;">${p1}</a>`;
+		const rubyText = addRubyTags(p1);
+		return `<a href="${p2}" style="text-decoration: underline; color: blue;">${rubyText}</a>`;
 	});
+}
+
+function addBrTags(text: string) {
+	return text.replace(/\r?\n/g, "<br>");
 }
 
 const css = {
@@ -36,11 +36,9 @@ const css = {
 	textOrientation: "upright"
 };
 
-
-export const NovelViewer: FC<Props> = memo(({ text }) => {
+export const NovelViewer: FC<Props> = ({ text }) => {
 	const aText = addLinkTags(text);
 	const rubyText = addRubyTags(aText);
-
 	const brText = addBrTags(rubyText);
 	return (
 		<Box
@@ -53,5 +51,4 @@ export const NovelViewer: FC<Props> = memo(({ text }) => {
 			margin="10px"
 		/>
 	);
-});
-NovelViewer.displayName = "NovelViewer";
+};
