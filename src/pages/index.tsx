@@ -2,6 +2,7 @@ import { Box } from "@chakra-ui/react";
 import { NextPage } from "next";
 import Seo from "../components/util/Seo";
 import TwoColumnTemplate from "../components/templates/TwoColumnTemplate";
+import { AlertInfo } from "../components/middleColumns/AlertInfo";
 
 const Index: NextPage = () => {
 	return (
@@ -15,6 +16,7 @@ const Index: NextPage = () => {
 				pageImgHeight="630"
 			/>
 			<Box>
+				<AlertInfo />
 				<TwoColumnTemplate />
 			</Box>
 		</>
